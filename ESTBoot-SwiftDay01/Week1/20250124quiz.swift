@@ -39,3 +39,30 @@ func get100Day() {
     print("1월 1일 부터 \(month)월 \(day)일 까지의 누적일 수는 \(total)일")
     print("\(month)월 \(day)일의 100일 후는 \(afterMonth)월 \(afterDay - 1)일")
 }
+
+
+func getAfterDays() {
+    var monthDays: [Int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    //MARK: 입력
+    print("월을 입력하세요:", terminator: " ")
+    let month = Int(readLine()!)!
+    print("일을 입력하세요:", terminator: " ")
+    let day = Int(readLine()!)!
+    print("몇일 후?:", terminator: " ")
+    let LIMIT = Int(readLine()!)!
+    
+    
+    //MARK: 입력받을 날짜로부터 LIMIT일 후 계산
+    var afterDay = 0
+    var afterMonth = 0
+    var sum = monthDays[month - 1] - day
+    var index = month
+    while sum < LIMIT {
+        sum += monthDays[index % 12]
+        index += 1
+    }
+    afterMonth = (index % 12)
+    afterDay = monthDays[(index % 12)] - (sum - LIMIT)
+    
+    print("\(month)월 \(day)일의 \(LIMIT)일 후는 \(afterMonth)월 \(afterDay - 1)일")
+}

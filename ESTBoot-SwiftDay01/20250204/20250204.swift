@@ -13,5 +13,3 @@ struct Person {
         return "Hello I'm \(name)"
     }
 }
-
-
