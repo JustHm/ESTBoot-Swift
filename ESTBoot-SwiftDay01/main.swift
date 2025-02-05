@@ -2,4 +2,5 @@ import Foundation
 
 
 
-funcTest()
+ClosureExample().ex1()
+ClosureExample().ex2()
