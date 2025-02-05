@@ -60,3 +60,23 @@ extension FunctionEx03 {
         return "HM"
     }
 }
+
+struct structExampleMain {
+    func main() {
+        print("실행할 예제 번호: ", terminator: "")
+        let no = Int(readLine() ?? "0")
+
+        switch no {
+        case 1:
+            let ex = FunctionEx01()
+            ex.run()
+        case 2:
+            let ex = FunctionEx02()
+            ex.run()
+        case 3:
+            let ex = FunctionEx03()
+        default:
+            print("NONE")
+        }
+    }
+}
