@@ -2,5 +2,8 @@ import Foundation
 
 
 
-let KIM = Person(name: "Kim", age: 20)
-KIM.say()
+let shapes: [Shape] = [Circle(), Rectangle()]
+
+for item in shapes {
+    item.draw()
+}
