@@ -43,3 +43,42 @@ class Rectangle: Shape {
         print("직사각형을 그립니다.")
     }
 }
+
+
+class ShapeView {
+    var shapeList: [Shape]
+    
+    init() {
+        self.shapeList = []
+    }
+    
+    func showList() {
+        for shape in shapeList {
+            shape.draw()
+        }
+    }
+    
+    func appendShpe(choice: Int) {
+        switch choice {
+        case 1:
+            shapeList.append(Circle())
+            print("리스트에 Circle 객체 추가 완료!")
+        case 2:
+            shapeList.append(Rectangle())
+            print("리스트에 Rectangle 객체 추가 완료!")
+        default:
+            print("객체 추가 실패!: 번호가 없음")
+        }
+    }
+    
+    func main() {
+        for i in 1...5 {
+            print("\(i)번째 생성 할 객체 타입 선택 (1)Circle (2)Rectangle", terminator: ": ")
+            let choice: Int = Int(readLine() ?? "") ?? 0
+            appendShpe(choice: choice)
+        }
+        
+        showList()
+        
+    }
+}
