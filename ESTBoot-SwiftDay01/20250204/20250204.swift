@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Person {
+struct person {
     var name: String
     func call() -> String {
         return "Hello I'm \(name)"

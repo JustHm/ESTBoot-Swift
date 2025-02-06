@@ -2,5 +2,5 @@ import Foundation
 
 
 
-ClosureExample().ex1()
-ClosureExample().ex2()
+let KIM = Person(name: "Kim", age: 20)
+KIM.say()
