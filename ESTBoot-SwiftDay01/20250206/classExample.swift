@@ -47,9 +47,13 @@ class Rectangle: Shape {
 
 class ShapeView {
     var shapeList: [Shape]
-    
+    var funcArr: [(()->Void)]
     init() {
         self.shapeList = []
+        funcArr = [
+            Circle().draw,
+            Rectangle().draw
+        ]
     }
     
     func showList() {
