@@ -8,3 +8,6 @@ list.append(Book(title: "abc", author: "me"))
 for item in list {
     item.info()
 }
+
+func solution(_ my_string:String) -> String {
+}
