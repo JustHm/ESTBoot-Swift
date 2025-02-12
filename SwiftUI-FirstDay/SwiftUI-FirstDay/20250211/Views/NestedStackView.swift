@@ -14,12 +14,15 @@ struct NestedStackView: View {
                 Text("이름:")
                 Text("안정흠")
             }
+            .padding()
+            .background(.yellow.opacity(0.3))
             ZStack {
                 Color.gray
                 Text("중첩된 ZStack")
                     .foregroundStyle(.white)
             }
             .frame(height: 100)
+            .cornerRadius(10)
         }
         
     }
