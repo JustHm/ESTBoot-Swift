@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ObservedObjectExample: View {
-    @ObservedObject var cntObj: CntClass = CntClass()
+    @StateObject var cntObj: CntClass = CntClass()
+    var body: some View {
+        StateObjectForObservedObject(cntObj: cntObj)
+    }
+}
+struct StateObjectForObservedObject: View {
+    @ObservedObject var cntObj: CntClass
     var body: some View {
         VStack(spacing: 8) {
             Text("Count: \(cntObj.count)")

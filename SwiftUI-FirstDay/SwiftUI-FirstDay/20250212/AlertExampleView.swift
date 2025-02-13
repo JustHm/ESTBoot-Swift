@@ -33,16 +33,8 @@ struct AlertExampleView: View {
                     ]
                 )
             }
-            
-            //            .alert("Title", isPresented: $showAlert) {
-            //                Button("Cancel", role: .destructive) {}
-            //                Button("OK", role: .cancel) {}
-            //            }
-            
-            
         }
         .padding()
-        
     }
 }
 
