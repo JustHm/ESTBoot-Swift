@@ -13,6 +13,7 @@ class ImageViewerController: UIViewController {
     var imageIndex = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.layer.cornerRadius = 16
         imageView.image = UIImage(named: "0")
         // Do any additional setup after loading the view.
     }

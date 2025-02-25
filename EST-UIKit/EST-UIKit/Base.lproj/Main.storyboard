@@ -290,6 +290,7 @@
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f54-aY-7Mb">
                                 <rect key="frame" x="16" y="155.33333333333331" width="361" height="580.33333333333348"/>
+                                <color key="backgroundColor" red="0.64705882349999999" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="106" translatesAutoresizingMaskIntoConstraints="NO" id="4Sl-i3-HQc">
                                 <rect key="frame" x="16" y="751.66666666666663" width="361" height="34.333333333333371"/>
