@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		22E5FBA72D6DA302000E9383 /* ImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5FBA62D6DA302000E9383 /* ImageViewerController.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		22E5FB8A2D6D47DE000E9383 /* EST-UIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EST-UIKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22E5FBA62D6DA302000E9383 /* ImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		22E5FB812D6D47DE000E9383 = {
 			isa = PBXGroup;
 			children = (
+				22E5FBA62D6DA302000E9383 /* ImageViewerController.swift */,
 				22E5FB8C2D6D47DE000E9383 /* EST-UIKit */,
 				22E5FB8B2D6D47DE000E9383 /* Products */,
 			);
@@ -132,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22E5FBA72D6DA302000E9383 /* ImageViewerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

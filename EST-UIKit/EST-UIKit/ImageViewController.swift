@@ -11,10 +11,12 @@ class ImageViewController: UIViewController {
     var isZoom = true
     
 
+    @IBOutlet weak var slider: UISwitch!
     @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        slider.onTintColor = .yellow
+        slider.thumbTintColor = .red
         // Do any additional setup after loading the view.
     }
     

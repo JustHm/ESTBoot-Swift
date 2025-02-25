@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="vGS-8x-V2B" kind="relationship" relationship="rootViewController" id="YRT-s1-88O"/>
+                        <segue destination="Cej-gR-Egh" kind="relationship" relationship="rootViewController" id="V94-9A-Cz3"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuK-PU-nNa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -154,6 +154,7 @@
                     <navigationItem key="navigationItem" id="3Uu-Ud-OUc"/>
                     <connections>
                         <outlet property="imageView" destination="AtY-h7-fc1" id="oAR-US-yqo"/>
+                        <outlet property="slider" destination="pQf-Z9-0sD" id="OUF-xP-Efa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32u-zJ-3oS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -271,7 +272,70 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z28-l4-oBp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="86" y="4"/>
+            <point key="canvasLocation" x="844" y="718"/>
+        </scene>
+        <!--Image Viewer Controller-->
+        <scene sceneID="99q-Ui-hHG">
+            <objects>
+                <viewController id="Cej-gR-Egh" customClass="ImageViewerController" customModule="EST_UIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6bD-f3-X6K">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Viewer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boB-yW-dPa">
+                                <rect key="frame" x="16" y="118.99999999999999" width="361" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f54-aY-7Mb">
+                                <rect key="frame" x="16" y="155.33333333333331" width="361" height="580.33333333333348"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="106" translatesAutoresizingMaskIntoConstraints="NO" id="4Sl-i3-HQc">
+                                <rect key="frame" x="16" y="751.66666666666663" width="361" height="34.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgr-9v-8Ke">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.66666666666667" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="이전"/>
+                                        <connections>
+                                            <action selector="prevButtonTap:" destination="Cej-gR-Egh" eventType="touchUpInside" id="tv7-OS-WWG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RZc-ZE-ZZd">
+                                        <rect key="frame" x="233.66666666666666" y="0.0" width="127.33333333333334" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="다음"/>
+                                        <connections>
+                                            <action selector="nextButtonTap:" destination="Cej-gR-Egh" eventType="touchUpInside" id="xkM-JZ-phC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="o75-1j-NkO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="boB-yW-dPa" firstAttribute="top" secondItem="o75-1j-NkO" secondAttribute="top" constant="16" id="5OG-fR-Lwx"/>
+                            <constraint firstItem="f54-aY-7Mb" firstAttribute="leading" secondItem="o75-1j-NkO" secondAttribute="leading" constant="16" id="65Y-mv-fI4"/>
+                            <constraint firstItem="4Sl-i3-HQc" firstAttribute="top" secondItem="f54-aY-7Mb" secondAttribute="bottom" constant="16" id="6z3-JS-fBq"/>
+                            <constraint firstItem="4Sl-i3-HQc" firstAttribute="leading" secondItem="o75-1j-NkO" secondAttribute="leading" constant="16" id="XvX-ql-VVH"/>
+                            <constraint firstItem="boB-yW-dPa" firstAttribute="leading" secondItem="o75-1j-NkO" secondAttribute="leading" constant="16" id="cPa-bV-qh5"/>
+                            <constraint firstItem="o75-1j-NkO" firstAttribute="trailing" secondItem="boB-yW-dPa" secondAttribute="trailing" constant="16" id="fyU-CT-wMJ"/>
+                            <constraint firstItem="o75-1j-NkO" firstAttribute="trailing" secondItem="f54-aY-7Mb" secondAttribute="trailing" constant="16" id="gYU-Dp-K5p"/>
+                            <constraint firstItem="o75-1j-NkO" firstAttribute="trailing" secondItem="4Sl-i3-HQc" secondAttribute="trailing" constant="16" id="gel-3M-uTS"/>
+                            <constraint firstItem="o75-1j-NkO" firstAttribute="bottom" secondItem="4Sl-i3-HQc" secondAttribute="bottom" constant="32" id="ksu-PI-SSY"/>
+                            <constraint firstItem="f54-aY-7Mb" firstAttribute="top" secondItem="boB-yW-dPa" secondAttribute="bottom" constant="16" id="vPq-Mk-clM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fNm-Fa-c62"/>
+                    <connections>
+                        <outlet property="imageView" destination="f54-aY-7Mb" id="x8C-Vk-g0C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fO0-os-IG6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="845" y="4"/>
         </scene>
     </scenes>
     <resources>
