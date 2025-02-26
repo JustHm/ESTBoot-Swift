@@ -17,17 +17,27 @@ class ImageViewerController: UIViewController {
         imageView.image = UIImage(named: "0")
         // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("WillAppear")
     }
-    */
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        print("IsAppear")
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("DidAppear")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("WillDisappear")
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("DidDisappear")
+    }
 
     @IBAction func nextButtonTap(_ sender: Any) {
         imageIndex = imageIndex == 3 ? imageIndex : imageIndex + 1
