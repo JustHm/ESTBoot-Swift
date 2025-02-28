@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 class HomeViewController: UIViewController {
-    typealias HomeDataSource = UICollectionViewDiffableDataSource<Section, Movie>
+    typealias HomeDataSource = UICollectionViewDiffableDataSource<HomeSection, Movie>
     var dataSource: HomeDataSource!
     var collectionView: UICollectionView!
     private let viewModel = ViewModel()
@@ -20,6 +20,10 @@ class HomeViewController: UIViewController {
         title = "Home"
         setupCollectionView()
         setupCollectionDataSource()
+        bind()
+    }
+    
+    private func bind() {
         viewModel.newSnapshot
             .sink { [weak self] snapshot in
                 self?.applyDatasource(snapshot: snapshot)
@@ -34,7 +38,7 @@ class HomeViewController: UIViewController {
             .store(in: &bag)
     }
     
-    private func applyDatasource(snapshot: NSDiffableDataSourceSnapshot<Section, Movie>) {
+    private func applyDatasource(snapshot: NSDiffableDataSourceSnapshot<HomeSection, Movie>) {
         dataSource.apply(snapshot)
     }
     
@@ -66,7 +70,7 @@ class HomeViewController: UIViewController {
                 withReuseIdentifier: "Header",
                 for: indexPath)
             let label = UILabel()
-            label.text = Section.allCases[indexPath.section].header
+            label.text = HomeSection.allCases[indexPath.section].header
             label.font = .systemFont(ofSize: 24, weight: .black)
             label.frame = header.bounds
             header.addSubview(label)
@@ -79,7 +83,7 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
         guard let indexPathSection = indexPaths.first?.section else { return nil }
         
-        let section = Section.allCases[indexPathSection]
+        let section = HomeSection.allCases[indexPathSection]
         // iOS 13+ context menu configuration
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
             let addAction = UIAction(title: "즐겨찾기 추가", image: UIImage(systemName: "star")) { [weak self] action in
@@ -104,7 +108,7 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController {
     func configureLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { [weak self] section, layout in
-            let section = Section.allCases[section]
+            let section = HomeSection.allCases[section]
             switch section {
             case .common:
                 return self?.commonSectionLayout()
@@ -144,14 +148,6 @@ extension HomeViewController {
         
         return section
     }
-    
-    // create badge
-    private func createGroupBadge() -> NSCollectionLayoutSupplementaryItem {
-        let layoutSize = NSCollectionLayoutSize(widthDimension: .estimated(24), heightDimension: .estimated(24))
-        let anchor = NSCollectionLayoutAnchor(edges: [.top, .trailing], fractionalOffset: CGPoint(x: 0, y: -1))
-        let badge = NSCollectionLayoutSupplementaryItem(layoutSize: layoutSize, elementKind: ElementKind.badge, containerAnchor: anchor)
-        return badge
-    }
     // sectionHeader Layout settings
     private func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let layoutSectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
@@ -161,7 +157,7 @@ extension HomeViewController {
     }
 }
 
-enum Section: Int, CaseIterable, Hashable {
+enum HomeSection: Int, CaseIterable, Hashable {
     case favorite
     case common
     
@@ -171,12 +167,4 @@ enum Section: Int, CaseIterable, Hashable {
         case .favorite: return "즐겨찾기"
         }
     }
-}
-struct ElementKind {
-    static let badge = "badge-element-kind"
-    static let background = "background-element-kind"
-    static let sectionHeader = "section-header-element-kind"
-    static let sectionFooter = "section-footer-element-kind"
-    static let layoutHeader = "layout-header-element-kind"
-    static let layoutFooter = "layout-footer-element-kind"
 }

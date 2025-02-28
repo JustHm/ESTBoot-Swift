@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class ViewModel {
-    typealias HomeSnapshot = NSDiffableDataSourceSnapshot<Section, Movie>
+    typealias HomeSnapshot = NSDiffableDataSourceSnapshot<HomeSection, Movie>
     // V -> VM
     var selectedIndexPath = PassthroughSubject<IndexPath, Never>()
     var deleteIndexPath = PassthroughSubject<IndexPath?, Never>()
@@ -20,7 +20,7 @@ final class ViewModel {
     var selectedItem = PassthroughSubject<Movie?, Never>()
     
     // State
-    @Published private var movies: [Movie] = []
+    private var movies: [Movie] = []
     private var favorite: [Movie] = []
     private var bag = Set<AnyCancellable>()
     
@@ -55,7 +55,7 @@ final class ViewModel {
             .store(in: &bag)
         selectedIndexPath
             .sink { [weak self] indexPath in
-                switch Section.allCases[indexPath.section] {
+                switch HomeSection.allCases[indexPath.section] {
                 case .common:
                     self?.selectedItem.send(self?.movies[indexPath.row])
                 case .favorite:
@@ -83,7 +83,7 @@ final class ViewModel {
     
     private func makeSnapshot() {
         var snapshot = HomeSnapshot()
-        snapshot.appendSections(Section.allCases)
+        snapshot.appendSections(HomeSection.allCases)
         snapshot.appendItems(favorite, toSection: .favorite)
         snapshot.appendItems(movies, toSection: .common)
         newSnapshot.send(snapshot)
