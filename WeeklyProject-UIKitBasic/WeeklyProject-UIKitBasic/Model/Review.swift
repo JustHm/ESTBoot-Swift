@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Review: Codable {
+struct Review: Hashable, Codable {
     var id: UUID = UUID()
     var movieID: String
     var username: String = "USER"

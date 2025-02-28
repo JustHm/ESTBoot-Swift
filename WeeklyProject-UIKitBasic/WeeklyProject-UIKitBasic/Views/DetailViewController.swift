@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    typealias DataSource = UITableViewDiffableDataSource<DetailSection, DetailItem>
+    var datasource: DataSource!
     var tableView: UITableView!
     var movie: Movie
     
@@ -29,19 +31,40 @@ class DetailViewController: UIViewController {
         setupNavigationBar()
     }
     
-    func setupUI() {
+    private func setupUI() {
         tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 300
+        tableView.sectionHeaderHeight = 0
+        tableView.sectionFooterHeight = 0
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(MovieDescriptionCell.self, forCellReuseIdentifier: "DescriptionCell")
         view.addSubview(tableView)
     }
     
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         let button = UIBarButtonItem(image: UIImage(systemName: movie.isFavorite ? "star.fill" : "star"), style: .plain, target: self, action: #selector(rightBarButtonTap))
         navigationItem.rightBarButtonItem = button
+    }
+    
+    private func setupDatasource() {
+        datasource = DataSource(tableView: tableView, cellProvider: { tableView, indexPath, itemIdentifier in
+            switch itemIdentifier {
+            case let .description(movie):
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: "DescriptionCell",
+                    for: indexPath
+                ) as? MovieDescriptionCell else { return UITableViewCell() }
+                cell.configure(movie: movie)
+                return cell
+            case .reviewSearch:
+                //여긴 서치바
+                return UITableViewCell()
+            case .review(let review):
+                //여기 리뷰
+            }
+        })
     }
     
     @objc func rightBarButtonTap() {
@@ -59,15 +82,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        <#code#>
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as? MovieDescriptionCell else { return UITableViewCell() }
-        
-        cell.configure(
-            title: movie.title,
-            director: movie.director,
-            releaseDate: movie.releaseDate,
-            genre: movie.genre
-        )
+        cell.configure(movie: movie)
         return cell
     }
     
@@ -80,4 +101,8 @@ enum DetailSection: CaseIterable {
     case review
 }
 
-
+enum DetailItem: Hashable {
+    case description(movie: Movie)
+    case reviewSearch
+    case review(Review)
+}

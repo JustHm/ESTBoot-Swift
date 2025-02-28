@@ -46,11 +46,11 @@ class MovieDescriptionCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configure(title: String, director: String, releaseDate: Date, genre: String) {
-        titleLabel.text = title
-        directorLabel.text = director
-        releaseDateLabel.text = releaseDate.formatted(.dateTime)
-        genreLabel.text = genre
+    func configure(movie: Movie) {
+        titleLabel.text = movie.title
+        directorLabel.text = movie.director
+        releaseDateLabel.text = movie.releaseDate.formatted(.dateTime)
+        genreLabel.text = movie.genre
         
         setupLayout()
     }
