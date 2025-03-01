@@ -63,6 +63,10 @@ class MovieDescriptionCell: UITableViewCell {
             .forEach {
                 contentView.addSubview($0)
             }
+        titleLabel.setContentHuggingPriority(.defaultHigh + 3, for: .vertical)
+        directorLabel.setContentHuggingPriority(.defaultHigh + 2, for: .vertical)
+        releaseDateLabel.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
+        //genreLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         // TableView의 DynamicHeight를 사용하려면 cell의 contentView에 넣고 constraint 정의해줘야함
         // 이런 방식으로도 activate 가능
         NSLayoutConstraint.activate([
