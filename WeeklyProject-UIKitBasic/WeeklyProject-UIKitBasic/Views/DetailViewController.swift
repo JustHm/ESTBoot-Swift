@@ -27,8 +27,6 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        
         setupUI()
         setupNavigationBar()
         setupDatasource()
@@ -42,11 +40,11 @@ class DetailViewController: UIViewController {
             .store(in: &bag)
     }
     private func setupUI() {
-        tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 300
         tableView.sectionHeaderHeight = 0
-        tableView.sectionFooterHeight = 0
+        tableView.sectionFooterHeight = 8
         tableView.delegate = self
         tableView.register(MovieDescriptionCell.self, forCellReuseIdentifier: "DescriptionCell")
         tableView.register(ReviewCell.self, forCellReuseIdentifier: "ReviewCell")

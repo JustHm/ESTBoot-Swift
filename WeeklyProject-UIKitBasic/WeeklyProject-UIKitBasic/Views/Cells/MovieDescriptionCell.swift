@@ -10,9 +10,6 @@ import UIKit
 class MovieDescriptionCell: UITableViewCell {
     lazy var posterView: UIImageView = {
         let image = UIImageView()
-        image.backgroundColor = .gray.withAlphaComponent(0.5)
-        image.layer.cornerRadius = 16
-        image.clipsToBounds = true
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -90,7 +87,7 @@ class MovieDescriptionCell: UITableViewCell {
             genreLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             genreLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            // ✅ 마지막 요소의 bottomAnchor를 설정해야 동적 높이 계산 가능!
+            // 마지막 요소의 bottomAnchor를 설정해야 동적 높이 계산 가능
             genreLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
