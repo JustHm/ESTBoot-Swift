@@ -41,8 +41,11 @@ class DetailViewController: UIViewController {
     }
     private func setupUI() {
         tableView = UITableView(frame: view.bounds, style: .insetGrouped)
+        // dynamic height 설정
         tableView.rowHeight = UITableView.automaticDimension
+        // 대략적인 높이를 설정해줘야함
         tableView.estimatedRowHeight = 300
+        // header, footer는 안쓰니까 구분용으로 헤더 8만 주고 0으로
         tableView.sectionHeaderHeight = 0
         tableView.sectionFooterHeight = 8
         tableView.delegate = self
@@ -85,10 +88,10 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // Swipe Action (delete) 추가
         let configuration = UISwipeActionsConfiguration(actions: [
             UIContextualAction(style: .destructive, title: "삭제", handler: { [weak self] action, view, completion in
                 self?.viewModel.deleteIndexPath.send(indexPath)
-                completion(false)
             })
         ])
         return configuration
@@ -107,19 +110,20 @@ enum DetailItem: Hashable {
 
 
 extension DetailViewController {
-    @objc func showReviewAlert() {
+    // ref: https://blog.kiprosh.com/customize-native-alert-view-in-ios/
+    @objc func showReviewAlert() { // Navigation Right Bar button Action
         let alert = UIAlertController(title: "리뷰 작성", message: nil, preferredStyle: .alert)
-        
-        // 컨테이너 뷰 생성 (텍스트필드 + RatingView 포함) (Alert dynamic frame? 을 위해)
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 270, height: 100))
+        // 컨테이너 뷰 생성 Alert에 들어갈 VC를 만들고 이걸 넣어줄거임(텍스트필드 + RatingView 포함) (Alert dynamic frame? 을 위해)
+        // 그냥 바로 넣어버리면 레이아웃을 잡아줘도 제대로 안됨.
+        let containerView = UIView()
         
         // RatingView 추가
-        let ratingView = RatingView(frame: CGRect(x: 0, y: 0, width: 250, height: 40))
+        let ratingView = RatingView()
         ratingView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(ratingView)
+        containerView.addSubview(ratingView) // container view에 추가
         
-        // 텍스트 필드 추가
-        let textField = UITextField(frame: CGRect(x: 0, y: 50, width: 250, height: 30))
+        // 리뷰 작성 필드 추가
+        let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "리뷰를 입력하세요."
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -137,12 +141,13 @@ extension DetailViewController {
         // contentViewController를 이용해 alert 크기 확장
         let vc = UIViewController()
         vc.view = containerView
-        vc.preferredContentSize = CGSize(width: 270, height: 100)
+        // 적당히 지정해놓으면 됌, 작아도 알아서 맞춰짐
+        // 만약 이 설정을 안해주면 message가 나오는 부분의 원래 frame을 가지기 때문에 여백이 너무 큼
+        vc.preferredContentSize = CGSize(width: 270, height: 100) //고정크기를 안해도 잘되는 방법을 생각해봐야함
         alert.setValue(vc, forKey: "contentViewController")
         
         // 버튼 추가
-        let submitAction = UIAlertAction(title: "등록", style: .default)
-        { [weak self] _ in
+        let submitAction = UIAlertAction(title: "등록", style: .default) { [weak self] _ in
             let reviewText = textField.text ?? ""
             let rating = ratingView.currentStar
             self?.viewModel.addReviewData.send((reviewText, rating))

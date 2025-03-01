@@ -42,7 +42,7 @@ class ReviewCell: UITableViewCell {
         [userLabel, ratingView, commentLabel].forEach {
             contentView.addSubview($0)
         }
-        
+        // DescriptionCell에서는 이렇게만 해두면 경고 떴는데.. 왜 여긴 안뜸
         NSLayoutConstraint.activate([
             userLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             userLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

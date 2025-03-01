@@ -73,9 +73,7 @@ final class ViewModel {
             self.movies = dto.map{$0.convertToEntity()}
         }
     }
-    private func loadFavorites() {
-        
-    }
+    
     private func saveFavorites() {
         
         UserDefaults.standard.set(nil, forKey: "favorite")

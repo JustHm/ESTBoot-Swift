@@ -63,6 +63,9 @@ class MovieDescriptionCell: UITableViewCell {
             .forEach {
                 contentView.addSubview($0)
             }
+        // 라벨이 길어지면 밀리는거 때문에 priority 설정이 필요함
+        // 오류는 아니고 런타임중 경고? 보라색 경고떠서 추가함
+        // 실기기, 시뮬레이션에는 잘 나오지만 그래도 문제를 고쳐보려고 넣었다.
         titleLabel.setContentHuggingPriority(.defaultHigh + 3, for: .vertical)
         directorLabel.setContentHuggingPriority(.defaultHigh + 2, for: .vertical)
         releaseDateLabel.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)

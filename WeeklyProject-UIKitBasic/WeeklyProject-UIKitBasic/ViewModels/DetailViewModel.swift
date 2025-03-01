@@ -16,11 +16,11 @@ final class DetailViewModel {
     
     // VM -> V
     var newSnapshot = CurrentValueSubject<DetailSnapShot, Never>(DetailSnapShot())
-    //    var selectedItem = PassthroughSubject<Movie?, Never>()
     
     // State
     private let movie: Movie!
     private var reviews: [Review] = []
+    
     private var bag = Set<AnyCancellable>()
     private let coreData = CoreDataStack()
     
