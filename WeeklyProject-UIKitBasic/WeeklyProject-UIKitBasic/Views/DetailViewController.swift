@@ -87,7 +87,13 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return nil
+        let configuration = UISwipeActionsConfiguration(actions: [
+            UIContextualAction(style: .destructive, title: "삭제", handler: { [weak self] action, view, completion in
+                self?.viewModel.deleteIndexPath.send(indexPath)
+                completion(false)
+            })
+        ])
+        return configuration
     }
 }
 

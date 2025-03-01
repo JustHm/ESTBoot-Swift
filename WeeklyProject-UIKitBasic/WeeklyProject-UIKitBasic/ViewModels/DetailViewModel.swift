@@ -12,7 +12,6 @@ final class DetailViewModel {
     typealias DetailSnapShot = NSDiffableDataSourceSnapshot<DetailSection, DetailItem>
     // V -> VM
     var addReviewData = PassthroughSubject<(String, Int), Never>()
-    var selectedIndexPath = PassthroughSubject<IndexPath, Never>()
     var deleteIndexPath = PassthroughSubject<IndexPath?, Never>()
     
     // VM -> V
@@ -20,7 +19,7 @@ final class DetailViewModel {
     //    var selectedItem = PassthroughSubject<Movie?, Never>()
     
     // State
-    private var movie: Movie!
+    private let movie: Movie!
     private var reviews: [Review] = []
     private var bag = Set<AnyCancellable>()
     private let coreData = CoreDataStack()
@@ -35,14 +34,20 @@ final class DetailViewModel {
                 self?.makeSnapshot()
             }
             .store(in: &bag)
+        deleteIndexPath
+            .compactMap{$0}
+            .sink { [weak self] indexPath in
+                self?.deleteReviews(index: indexPath.row)
+                self?.makeSnapshot()
+            }
+            .store(in: &bag)
     }
     
     private func makeSnapshot() {
         var snapShot = NSDiffableDataSourceSnapshot<DetailSection, DetailItem>()
         snapShot.appendSections(DetailSection.allCases)
         snapShot.appendItems([.description(movie: movie)], toSection: .description)
-        var reviewsWrapped = reviews.map{DetailItem.review($0)}
-        reviewsWrapped.append(.review(Review(movieID: "1", comment: "D\nd\nA\na\nf", rating: 4)))
+        let reviewsWrapped = reviews.map{DetailItem.review($0)}
         snapShot.appendItems(reviewsWrapped, toSection: .review)
         newSnapshot.send(snapShot)
     }
@@ -50,10 +55,17 @@ final class DetailViewModel {
     private func loadReviews(id: String) -> [Review] {
         let data = coreData.fetchFromReviewByMovieID(id)
         let reviews = data.compactMap{ item -> Review? in
-            guard let movieID = item.movieID,
-//                  let username = item.username,
+            guard let id = item.id,
+                let movieID = item.movieID,
+                  let username = item.username,
                   let comment = item.comment else { return nil }
-            return Review(movieID: movieID, comment: comment, rating: Int(item.rating))
+            return Review(
+                id: id,
+                movieID: movieID,
+                username: username,
+                comment: comment,
+                rating: Int(item.rating)
+            )
         }
         return reviews
     }
@@ -68,4 +80,8 @@ final class DetailViewModel {
         reviews = loadReviews(id: movie.id)
     }
     
+    private func deleteReviews(index: Int) {
+        let deletedItem = reviews.remove(at: index)
+        coreData.deleteReview(deletedItem)
+    }
 }
