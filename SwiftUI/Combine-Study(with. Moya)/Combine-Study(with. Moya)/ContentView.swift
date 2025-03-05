@@ -26,8 +26,8 @@ struct ContentView: View {
             .padding()
             
             Button {
-//                viewModel.getMessageFromAPI()
-                viewModel.getMessageWithCombine()
+                viewModel.getMessageFromAPI()
+//                viewModel.getMessageWithCombine()
             } label: {
                 Text("Refresh")
             }
