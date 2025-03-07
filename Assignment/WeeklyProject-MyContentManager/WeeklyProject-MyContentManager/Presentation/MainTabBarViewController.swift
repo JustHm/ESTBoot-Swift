@@ -11,8 +11,11 @@ class MainTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let contentVC = UINavigationController(rootViewController: TextContentViewController())
+        contentVC.tabBarItem = UITabBarItem(title: "Memo", image: UIImage(systemName: "memorychip"), tag: 0)
+        let galleryVC = UINavigationController(rootViewController: ImageGalleryViewController())
+        galleryVC.tabBarItem = UITabBarItem(title: "Gallery", image: UIImage(systemName: "photo"), tag: 1)
+        self.viewControllers = [contentVC, galleryVC]
     }
     
 
