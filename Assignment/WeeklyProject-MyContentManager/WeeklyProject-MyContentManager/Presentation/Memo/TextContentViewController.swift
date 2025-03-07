@@ -13,9 +13,9 @@ class TextContentViewController: UIViewController {
         return tableView
     }()
     private let emptyView = EmptyGuideView(
-        systemImage: UIImage(systemName: "text.document"),
-        title: "메모가 없습니다.",
-        message: "오른쪽 위 "+" 버튼을 눌러 메모를 추가하세요"
+        systemImage: UIImage(systemName: "photo.stack.fill"),
+        title: "사진이 없습니다.",
+        message: "오른쪽 위 "+" 버튼을 눌러 사진을 추가해보세요"
     )
     private let floatingButton: UIButton = {
         let button = UIButton()
@@ -30,4 +30,11 @@ class TextContentViewController: UIViewController {
     }
 
 }
-
+#if DEBUG
+import SwiftUI
+struct TextContentViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        TextContentViewController().toPreview()
+    }
+}
+#endif
