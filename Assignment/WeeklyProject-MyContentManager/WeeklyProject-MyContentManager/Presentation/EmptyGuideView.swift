@@ -19,7 +19,9 @@ final class EmptyGuideView: UIView {
         
         guideTitleLabel.text = title
         guideMessage.text = message
-        super.init()
+        super.init(frame: .infinite)
+        setupViewProperties()
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -49,6 +51,8 @@ final class EmptyGuideView: UIView {
     }
     
     private func setupViewProperties() {
+        backgroundColor = .secondarySystemBackground
+        
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.tintColor = .gray
         
@@ -58,6 +62,7 @@ final class EmptyGuideView: UIView {
         [guideTitleLabel, guideMessage].forEach {
             $0.textColor = .gray
             $0.numberOfLines = 0
+            $0.textAlignment = .center
         }
     }
 }

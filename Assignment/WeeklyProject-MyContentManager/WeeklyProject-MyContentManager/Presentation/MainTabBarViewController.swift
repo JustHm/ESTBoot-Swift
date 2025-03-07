@@ -16,17 +16,7 @@ class MainTabBarViewController: UITabBarController {
         let galleryVC = UINavigationController(rootViewController: ImageGalleryViewController())
         galleryVC.tabBarItem = UITabBarItem(title: "Gallery", image: UIImage(systemName: "photo.stack.fill"), tag: 1)
         self.viewControllers = [contentVC, galleryVC]
+        
+        self.tabBar.backgroundColor = .white.withAlphaComponent(0.8)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
