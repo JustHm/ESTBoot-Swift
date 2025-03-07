@@ -11,6 +11,7 @@ class TextContentViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .infinite, style: .grouped)
         tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -53,6 +54,10 @@ class TextContentViewController: UIViewController {
         ])
     }
 }
+
+
+
+
 #if DEBUG
 import SwiftUI
 struct TextContentViewControllerPreview: PreviewProvider {
