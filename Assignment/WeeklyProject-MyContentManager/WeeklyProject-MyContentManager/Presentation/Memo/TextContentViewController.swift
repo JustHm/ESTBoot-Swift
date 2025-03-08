@@ -8,13 +8,8 @@
 import UIKit
 
 class TextContentViewController: UIViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .infinite, style: .grouped)
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private var datasource: [Content] = []
+    private var tableView: UITableView!
     private let emptyView: EmptyGuideView = {
         let view = EmptyGuideView(
             systemImage: UIImage(systemName: "text.document"),
@@ -33,11 +28,19 @@ class TextContentViewController: UIViewController {
             image: UIImage(systemName: "plus"),
             style: .plain,
             target: self,
-            action: nil
+            action: #selector(plusButtonTap)
         )
+        setupTableView()
         setupLayout()
     }
     
+    private func setupTableView() {
+        tableView = UITableView(frame: .infinite, style: .grouped)
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+    }
     private func setupLayout() {
         [tableView, emptyView].forEach{ view.addSubview($0) }
 
@@ -55,8 +58,62 @@ class TextContentViewController: UIViewController {
     }
 }
 
+extension TextContentViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if datasource.isEmpty {
+            tableView.isHidden = true
+            emptyView.isHidden = false
+            return 0
+        }
+        else {
+            tableView.isHidden = false
+            emptyView.isHidden = true
+            return datasource.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let label = UILabel(frame: cell.contentView.bounds)
+        label.text = datasource[indexPath.row].text
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
+            label.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 8),
+            label.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -8)
+        ])
+        
+        return cell
+        
+    }
+}
 
+extension TextContentViewController {
+    @objc private func plusButtonTap() {
+        let alert = UIAlertController(title: "메모 추가", message: "", preferredStyle: .alert)
 
+        alert.addTextField()
+        
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
+            if let field = alert.textFields?.first,
+               let text = field.text {
+                self?.datasource.append(Content(id: UUID(), text: text))
+                self?.tableView.reloadData()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { [weak self] _ in
+            self?.datasource.removeLast()
+        }))
+        present(alert, animated: true)
+    }
+}
 
 #if DEBUG
 import SwiftUI
