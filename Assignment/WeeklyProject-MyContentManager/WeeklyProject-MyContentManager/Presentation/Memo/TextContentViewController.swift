@@ -8,7 +8,8 @@
 import UIKit
 
 class TextContentViewController: UIViewController {
-    private var datasource: [Content] = []
+    private let coreData = CoreDataManager()
+    private lazy var datasource: [Content] = coreData.fetchContents()
     private var tableView: UITableView!
     private let emptyView: EmptyGuideView = {
         let view = EmptyGuideView(
@@ -38,6 +39,7 @@ class TextContentViewController: UIViewController {
         tableView = UITableView(frame: .infinite, style: .grouped)
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -58,7 +60,14 @@ class TextContentViewController: UIViewController {
     }
 }
 
-extension TextContentViewController: UITableViewDataSource {
+extension TextContentViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, completion in
+            self?.datasource.remove(at: indexPath.row)
+            self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if datasource.isEmpty {
             tableView.isHidden = true
@@ -104,12 +113,16 @@ extension TextContentViewController {
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
             if let field = alert.textFields?.first,
                let text = field.text {
-                self?.datasource.append(Content(id: UUID(), text: text))
+                let content = Content(id: UUID(), text: text)
+                self?.datasource.append(content)
+                self?.coreData.addContent(content: content)
                 self?.tableView.reloadData()
             }
         }))
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { [weak self] _ in
-            self?.datasource.removeLast()
+            if let id = self?.datasource.removeLast().id {
+                self?.coreData.deleteContent(id: id)
+            }
         }))
         present(alert, animated: true)
     }
