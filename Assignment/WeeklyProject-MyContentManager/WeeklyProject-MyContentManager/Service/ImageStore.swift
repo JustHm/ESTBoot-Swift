@@ -27,7 +27,6 @@ struct ImageStore {
                 try imageData.write(to: fileURL)
                 print("Image saved at: \(fileURL)")
             }
-            
         } catch {
             print("Failed to save images: \(error)")
         }

@@ -6,13 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		22E72C1B2D7C2EBF0090DD94 /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E72C1A2D7C2EBF0090DD94 /* ImageStore.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		22E72BA42D7B086F0090DD94 /* WeeklyProject-MyContentManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WeeklyProject-MyContentManager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		22E72C1A2D7C2EBF0090DD94 /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -51,7 +46,6 @@
 		22E72B9B2D7B086F0090DD94 = {
 			isa = PBXGroup;
 			children = (
-				22E72C1A2D7C2EBF0090DD94 /* ImageStore.swift */,
 				22E72BA62D7B086F0090DD94 /* WeeklyProject-MyContentManager */,
 				22E72BA52D7B086F0090DD94 /* Products */,
 			);
@@ -139,7 +133,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22E72C1B2D7C2EBF0090DD94 /* ImageStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
