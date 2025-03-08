@@ -66,8 +66,10 @@ extension TextContentViewController: UITableViewDataSource, UITableViewDelegate 
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, completion in
-            self?.datasource.remove(at: indexPath.row)
-            self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            if let deleted = self?.datasource.remove(at: indexPath.row).id {
+                self?.coreData.deleteContent(id: deleted)
+                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
         }
         return UISwipeActionsConfiguration(actions: [action])
     }
@@ -122,11 +124,7 @@ extension TextContentViewController {
                 self?.tableView.reloadData()
             }
         }))
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { [weak self] _ in
-            if let id = self?.datasource.removeLast().id {
-                self?.coreData.deleteContent(id: id)
-            }
-        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
 }
