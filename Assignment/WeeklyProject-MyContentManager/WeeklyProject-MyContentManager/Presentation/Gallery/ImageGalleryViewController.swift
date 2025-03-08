@@ -8,7 +8,9 @@
 import UIKit
 
 class ImageGalleryViewController: UIViewController {
-    var datasource: [UIImage] = []
+    let imageStore = ImageStore()
+    lazy var datasource: [(String, UIImage?)] = { return imageStore.loadAllImageFromDirectory() }()
+    
     private var collectionView: UICollectionView!
     private let emptyView: EmptyGuideView = {
         let view = EmptyGuideView(
@@ -50,6 +52,7 @@ class ImageGalleryViewController: UIViewController {
         layout.sectionInset = .init(top: 8, left: 8, bottom: 8, right: 8)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -69,8 +72,25 @@ class ImageGalleryViewController: UIViewController {
         ])
     }
 }
-
-extension ImageGalleryViewController: UICollectionViewDataSource {
+// MARK: CollectionView Datasource & Delegate
+extension ImageGalleryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { menus in
+            let deleteAction = UIAction(title: "제거", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] action in
+                if  let indexPath = indexPaths.first,
+                    let id = self?.datasource[indexPath.row].0
+                {
+                    self?.imageStore.deleteImageFromDirectory(idnetifier: id)
+                    self?.datasource.remove(at: indexPath.row)
+                    self?.collectionView.deleteItems(at: [indexPath])
+                }
+            }
+            return UIMenu(
+                title: "",
+                children: [deleteAction]
+            )
+        }
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if datasource.isEmpty {
             collectionView.isHidden = true
@@ -92,7 +112,7 @@ extension ImageGalleryViewController: UICollectionViewDataSource {
         cell.contentView.subviews.forEach { $0.removeFromSuperview() }
         
         let imageView = UIImageView(frame: cell.contentView.bounds)
-        imageView.image = datasource[indexPath.row] // 여기에 실제 이미지 배열에서 가져온 이미지 사용
+        imageView.image = datasource[indexPath.row].1 // 여기에 실제 이미지 배열에서 가져온 이미지 사용
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 12
         imageView.backgroundColor = .gray.withAlphaComponent(0.3)
@@ -103,14 +123,14 @@ extension ImageGalleryViewController: UICollectionViewDataSource {
         cell.layer.shadowOpacity = 0.5
         cell.layer.shadowOffset = CGSize(width: 2, height: 2)
         cell.layer.shadowRadius = 4
-
+        
         // clipToBounds를 false로 설정해야 그림자가 잘림 없이 보입니다
         cell.layer.masksToBounds = false // 그림자 효과가 잘리도록 방지
         
         return cell
     }
 }
-
+// MARK: ImagePicker Delegate
 extension ImageGalleryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @objc private func plusButtonTap() {
         let vc = UIImagePickerController()
@@ -122,9 +142,15 @@ extension ImageGalleryViewController: UIImagePickerControllerDelegate, UINavigat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: false)
-        if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            datasource += [img]
+        if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+           let url = info[.imageURL] as? URL // 선택한 이미지 파일 이름 가져오기
+        {
+            let fileName = url.lastPathComponent
+            
+            imageStore.saveImageToDirectory(identifier: fileName, image: img)
+            datasource += [(fileName, img)]
             collectionView.reloadData()
+            
         }
     }
     // 이미지 피커에서 이미지를 선택하지 않고 취소했을 때 호출되는 메소드
