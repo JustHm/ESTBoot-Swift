@@ -15,10 +15,10 @@ struct ContentView: View {
                 .font(.headline)
                 .padding()
 
-            ARVisionView()
-                .edgesIgnoringSafeArea(.all)
-//            ARViewContainer()
+//            ARVisionView()
 //                .edgesIgnoringSafeArea(.all)
+            ARViewContainer()
+                .edgesIgnoringSafeArea(.all)
         }
     }
 }
