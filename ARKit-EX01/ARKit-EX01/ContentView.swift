@@ -7,15 +7,19 @@
 
 import SwiftUI
 
+// SwiftUI 화면에 ARKit 뷰 연결
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("AR + VisionOS Demo")
+                .font(.headline)
+                .padding()
+
+            ARVisionView()
+                .edgesIgnoringSafeArea(.all)
+//            ARViewContainer()
+//                .edgesIgnoringSafeArea(.all)
         }
-        .padding()
     }
 }
 
