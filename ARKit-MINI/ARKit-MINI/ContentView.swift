@@ -7,15 +7,42 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ContentView: View {
+    @StateObject private var manager = RecordingManager()
+    @State private var showGallery = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            ARBodyTrackingView(recordingManager: manager)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Spacer()
+                Button(action: {
+                    manager.isRecording.toggle()
+                }) {
+                    Text(manager.isRecording ? "Stop Recording" : "Start Recording")
+                        .padding()
+                        .background(manager.isRecording ? Color.red : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
+                
+                Button {
+                    showGallery.toggle()
+                } label: {
+                    Text("Gallery")
+                }
+
+            }
         }
-        .padding()
+        .sheet(isPresented: $showGallery) {
+            RecordingGalleryView()
+                .environmentObject(manager)
+        }
     }
 }
 
